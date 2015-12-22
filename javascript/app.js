@@ -18,7 +18,7 @@ function bootstrapSpotifySearch(){
   $('#spotify-q-button').on("click", function(){
       var spotifyQueryRequest;
       spotifyQueryString = $('#spotify-q').val();
-      searchUrl = "https://api.spotify.com/v1/search?type=artists&q=" + spotifyQueryString;
+      searchUrl = "https://api.spotify.com/v1/search?type=artist&q=" + spotifyQueryString;
 
       // Generate the request object
       spotifyQueryRequest = $.ajax({
@@ -59,16 +59,21 @@ function bootstrapSpotifySearch(){
 /* COMPLETE THIS FUNCTION! */
 function displayAlbumsAndTracks(event) {
   var appendToMe = $('#albums-and-tracks');
-  var albumURL = $("https://api.spotify.com/v1/albums/{ID}/tracks");
+  var artistID = event.target.innerHTML.split(" - ")[1];
+  searchUrl = ["https://api.spotify.com/v1/artists/", artistID, "/albums"].join(""); 
+  
   $.get(searchUrl, function(data){
-    for (var i = 0; i < data.albums.ID[i].length; i++) {
-      console.log(data.albums.ID[i].tracks);
-      $('ul').append()
+    for (var i = 0; i < data.items.length; i++) {
+     console.log(data.items[i]);
+    var artist = ["<p>", data.items[i].name, "</p>"].join("");
+    appendToMe.append(artist);
+    
     }
+    //"https://api.spotify.com/albums/",albumID,"/tracks".join("");
+  
+
   });
-
-  }
-
+}
 /* YOU MAY WANT TO CREATE HELPER FUNCTIONS OF YOUR OWN */
 /* THEN CALL THEM OR REFERENCE THEM FROM displayAlbumsAndTracks */
 /* THATS PERFECTLY FINE, CREATE AS MANY AS YOU'D LIKE */
