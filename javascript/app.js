@@ -4,7 +4,7 @@
 (function(){
   $(document).ready(function(){
     bootstrapSpotifySearch();
-  })
+  });
 })();
 
 /**
@@ -18,7 +18,7 @@ function bootstrapSpotifySearch(){
   $('#spotify-q-button').on("click", function(){
       var spotifyQueryRequest;
       spotifyQueryString = $('#spotify-q').val();
-      searchUrl = "https://api.spotify.com/v1/search?type=artist&q=" + spotifyQueryString;
+      searchUrl = "https://api.spotify.com/v1/search?type=artists&q=" + spotifyQueryString;
 
       // Generate the request object
       spotifyQueryRequest = $.ajax({
@@ -39,18 +39,18 @@ function bootstrapSpotifySearch(){
         // Which contains the first 20 matching elements.
         // In our case they are artists.
         artists.items.forEach(function(artist){
-          var artistLi = $("<li>" + artist.name + " - " + artist.id + "</li>")
+          var artistLi = $("<li>" + artist.name + " - " + artist.id + "</li>");
           artistLi.attr('data-spotify-id', artist.id);
           outputArea.append(artistLi);
 
           artistLi.click(displayAlbumsAndTracks);
-        })
+        });
       });
 
       // Attach the callback for failure 
       // (Again, we could have used the error callback direcetly)
       spotifyQueryRequest.fail(function (error) {
-        console.log("Something Failed During Spotify Q Request:")
+        console.log("Something Failed During Spotify Q Request:");
         console.log(error);
       });
   });
@@ -59,11 +59,15 @@ function bootstrapSpotifySearch(){
 /* COMPLETE THIS FUNCTION! */
 function displayAlbumsAndTracks(event) {
   var appendToMe = $('#albums-and-tracks');
+  var albumURL = $("https://api.spotify.com/v1/albums/{ID}/tracks");
+  $.get(searchUrl, function(data){
+    for (var i = 0; i < data.albums.ID[i].length; i++) {
+      console.log(data.albums.ID[i].tracks);
+      $('ul').append()
+    }
+  });
 
-  // These two lines can be deleted. They're mostly for show. 
-  console.log("you clicked on:");
-  console.log($(event.target).attr('data-spotify-id'));//.attr('data-spotify-id'));
-}
+  }
 
 /* YOU MAY WANT TO CREATE HELPER FUNCTIONS OF YOUR OWN */
 /* THEN CALL THEM OR REFERENCE THEM FROM displayAlbumsAndTracks */
